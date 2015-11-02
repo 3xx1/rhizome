@@ -56,7 +56,7 @@ function init() {
 	mouse = new THREE.Vector2();
 
   renderer = new THREE.CanvasRenderer();
-	renderer.setClearColor( 0xf0f0f0 );
+	renderer.setClearColor( 0x000000 );
 	renderer.setPixelRatio( window.devicePixelRatio );
 	renderer.setSize( window.innerWidth, window.innerHeight );
 	container.appendChild( renderer.domElement );
