@@ -4,6 +4,9 @@ var camera, scene, renderer;
 var raycaster;
 var mouse;
 
+var classification = [ "bun-ri", "sei-tai", "shi-kou", "kou-ka", "i-hyou", "reki-shou", "se-sou", "doku-sou", "ren-kan", "ban-gai" ];
+var color = [ "00a1e9", "40a907", "9c0d54", "8c8600", "d8007d", "17534e", "fd8b00", "4c5e75", "7d4698", "e60012" ];
+
 var PI2 = Math.PI * 2;
 
 var programFill = function ( context ) {
