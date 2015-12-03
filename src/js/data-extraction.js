@@ -1,20 +1,27 @@
 // not for use in the real app
+// var fs = require('fs');
+
 var items = $('.temporary-stuff > a');
 var N = 1592;
 var counter = 0;
 var classification = [ "bun-ri", "sei-tai", "shi-kou", "kou-ka", "i-hyou", "reki-shou", "se-sou", "doku-sou", "ren-kan", "ban-gai" ];
+var metadata = [];
 
-var i = 0;
+var i = 90;
 
 var interval = setInterval(function() {
   // replace this with N-2
-  if(i > 5) clearInterval(interval);
+  if(i > N-2) {
+    console.log(JSON.stringify(metadata));
+    clearInterval(interval);
+  }
 
   $.ajax({
     url: 'http://1000ya.isis.ne.jp/' + fourDigitsString(i+1) + '.html',
     type: 'GET',
     dataType: 'html',
     success: function(data) {
+      console.log(i+1);
       var j = (N-1)-i;
       var author = items[j*3+0].text;
       var title  = items[j*3+1].text;
@@ -30,16 +37,34 @@ var interval = setInterval(function() {
         linksArray.push(links[k].children[0].innerText.substring(0,4));
       }
       for (k=0; k<keywordLength; k++) {
-        keywordsArray.push(keywords.split('\n')[k]);
+        var key = keywords.split('\n')[k];
+        if (key.indexOf('\r') > 0) {
+          key = key.substring( 0, key.length-1 );
+        }
+        keywordsArray.push(key);
       }
-      console.log(author);
-      console.log(title);
-      console.log(classificationName);
-      console.log(linksArray);
-      console.log(keywordsArray);
+
+      var emptyObject = {};
+      emptyObject.id = i + 1;
+      emptyObject.author = author;
+      emptyObject.title = title;
+      emptyObject.classification = classificationName;
+      emptyObject.links = linksArray;
+      emptyObject.keywords = keywordsArray;
+
+      metadata.push(emptyObject);
+
+      // console.log(author);
+      // console.log(title);
+      // console.log(classificationName);
+      // console.log(linksArray);
+      // console.log(keywordsArray);
 
       $('#sample').replaceWith('<div id="sample" hidden="true"></div>');
       i++;
+    },
+    error: function(status) {
+      console.log(status);
     }
   });
 

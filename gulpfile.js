@@ -6,3 +6,10 @@ gulp.task("sass", function() {
         .pipe(sass())
         .pipe(gulp.dest("./css"));
 });
+
+gulp.task('watch', ['sass', 'js'], function(){
+    gulp.watch('./src/scss/*.scss', ['sass']);
+    gulp.watch('./src/js/*.js', ['js']);
+});
+
+gulp.task('default', ['sass']);
